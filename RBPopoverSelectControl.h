@@ -1,9 +1,7 @@
 //
 //  MPopoverSelectControl.h
-//  ExaClair
 //
 //  Created by Ryhor Burakou on 07/04/2014.
-//  Copyright (c) 2014 Mobistep. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
