@@ -3,6 +3,8 @@ RBPopoverSelectControl
 
 A simple and clean ComboBox control for iPad based on UIPopoverController
 
+![Image] (https://api.monosnap.com/image/download?id=vJhDd5iYUNU9nnprPCb2IrfaSfGIvi)
+
 
 Usage
 ======================
