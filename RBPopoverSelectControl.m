@@ -1,5 +1,5 @@
 //
-//  MPopoverSelectControl.m
+//  RBPopoverSelectControl.m
 //
 //  Created by Ryhor Burakou on 07/04/2014.
 //
