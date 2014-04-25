@@ -64,7 +64,9 @@
     self.tableController.tableView.dataSource = self;
     
     //popover
-    self.popover = [[UIPopoverController alloc]initWithContentViewController:self.tableController];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:self.tableController];
+    nav.navigationBarHidden = YES;
+    self.popover = [[UIPopoverController alloc]initWithContentViewController:nav];
     self.popover.delegate = self;
     
     
@@ -200,5 +202,17 @@
 - (BOOL) isSomethingSelected
 {
     return self.selectedIndex > 0;
+}
+
+- (void) setCaption:(NSString *)caption
+{
+    //nav bar hidden if no caption
+    self.tableController.navigationController.navigationBarHidden = !caption;
+    self.tableController.title = caption;
+}
+
+- (NSString*)caption
+{
+    return self.tableController.title;
 }
 @end

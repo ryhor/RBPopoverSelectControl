@@ -45,6 +45,10 @@
  */
 @property (assign, readwrite) NSInteger selectedIndex;
 
+/**
+ Caption of the popover window. Pass nil, if you would like no title.
+ */
+@property (nonatomic, retain) NSString *caption;
 
 /**
  Returns YES if selectedIndex is > 0
