@@ -19,8 +19,17 @@
 @implementation RBPopoverSelectControl
 @synthesize selectedIndex = _selectedIndex;
 
+- (instancetype) init
+{
+    self = [super init];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -66,13 +75,23 @@
 #pragma mark - TextField
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self.popover presentPopoverFromRect:self.frame inView:self.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self presentFromControl:textField];
 }
 
 #pragma mark - Popover
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
     [self.textField resignFirstResponder];
+}
+
+- (void) presentFromBarButtonItem:(UIBarButtonItem*)control
+{
+    [self.popover presentPopoverFromBarButtonItem:control permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void) presentFromControl:(UIView*)control
+{
+    [self.popover presentPopoverFromRect:control.frame inView:control.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 
@@ -129,6 +148,12 @@
         [self.popover dismissPopoverAnimated:YES];
         [self popoverControllerDidDismissPopover:self.popover];
     }
+    
+    //call delegate
+    if ([self.delegate respondsToSelector:@selector(popoverSelectControlSelectionChanged:)])
+    {
+        [self.delegate popoverSelectControlSelectionChanged:self];
+    }
 }
 
 #pragma mark - Item setting
@@ -176,5 +201,4 @@
 {
     return self.selectedIndex > 0;
 }
-
 @end

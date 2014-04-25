@@ -6,8 +6,24 @@
 
 #import <UIKit/UIKit.h>
 
+@class RBPopoverSelectControl;
+@protocol RBPopoverSelectControlDelegate <NSObject>
+
+
+@optional
+
+/**
+ Called when selection changes
+ */
+- (void) popoverSelectControlSelectionChanged:(RBPopoverSelectControl*)control;
+
+@end
+
 @interface RBPopoverSelectControl : UIControl
 
+/**
+ */
+@property (weak, nonatomic) id<RBPopoverSelectControlDelegate>delegate;
 
 /**
  NSString items that can be selected
@@ -24,14 +40,18 @@
  */
 @property (nonatomic, strong) NSNumber *closeOnSelect;
 
-
 /**
  Index of selected element in items Array
  */
 @property (assign, readwrite) NSInteger selectedIndex;
 
+
 /**
  Returns YES if selectedIndex is > 0
  */
 - (BOOL) isSomethingSelected;
+
+
+- (void) presentFromBarButtonItem:(UIBarButtonItem*)control;
+- (void) presentFromControl:(UIView*)control;
 @end
