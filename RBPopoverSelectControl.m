@@ -56,6 +56,10 @@
     self.textField.delegate = self;
     [self addSubview:self.textField];
     
+    //icon
+    UIImageView *iv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"rbpopover-down.png"]];
+    self.textField.rightView = iv;
+    
     //table
     self.tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
     self.tableController.tableView.allowsMultipleSelection = NO;

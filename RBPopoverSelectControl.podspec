@@ -12,4 +12,5 @@ Pod::Spec.new do |s|
   s.source_files = '*.{h,m}'
   s.homepage = 'https://ryhor.com'
   s.requires_arc = true
+  s.resources = '*.{png}'
 end
