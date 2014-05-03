@@ -23,7 +23,7 @@
 
 /**
  */
-@property (weak, nonatomic) id<RBPopoverSelectControlDelegate>delegate;
+@property (weak, nonatomic) IBOutlet id<RBPopoverSelectControlDelegate>delegate;
 
 /**
  NSString items that can be selected
@@ -49,6 +49,11 @@
  Caption of the popover window. Pass nil, if you would like no title.
  */
 @property (nonatomic, retain) NSString *caption;
+
+/**
+ Placeholder that will be shown when no selection has been made
+ */
+@property (nonatomic, retain) NSString *placeholder;
 
 /**
  Returns YES if selectedIndex is > 0
