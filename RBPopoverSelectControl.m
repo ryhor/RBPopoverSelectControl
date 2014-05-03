@@ -59,6 +59,7 @@
     //icon
     UIImageView *iv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"rbpopover-down.png"]];
     self.textField.rightView = iv;
+    self.textField.rightViewMode = UITextFieldViewModeAlways;
     
     //table
     self.tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
