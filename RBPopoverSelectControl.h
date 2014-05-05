@@ -48,12 +48,12 @@
 /**
  Caption of the popover window. Pass nil, if you would like no title.
  */
-@property (nonatomic, retain) NSString *caption;
+@property (nonatomic, strong) NSString *caption;
 
 /**
  Placeholder that will be shown when no selection has been made
  */
-@property (nonatomic, retain) NSString *placeholder;
+@property (nonatomic, strong) NSString *placeholder;
 
 /**
  Returns YES if selectedIndex is > 0

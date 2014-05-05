@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'RBPopoverSelectControl'
-  s.version      = '1.0.1'
+  s.version      = '1.0.2'
   s.summary      = 'Simple popover combo box (select control)'
   s.author = {
     'Ryhor Burakou' => 'ahsirg@gmail.com'
