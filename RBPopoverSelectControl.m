@@ -209,7 +209,7 @@
 #pragma mark - Info
 - (BOOL) isSomethingSelected
 {
-    return self.selectedIndex > 0;
+    return self.selectedIndex >= 0;
 }
 
 - (void) setCaption:(NSString *)caption
