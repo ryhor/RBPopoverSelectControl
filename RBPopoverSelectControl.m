@@ -6,6 +6,9 @@
 
 #import "RBPopoverSelectControl.h"
 
+static const int TABLE_MIN_VISIBLE_ROWS = 3;
+static const int TABLE_WIDTH = 320;
+
 @interface RBPopoverSelectControl () <UITextFieldDelegate, UIPopoverControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 //ui
@@ -74,7 +77,6 @@
     self.popover = [[UIPopoverController alloc]initWithContentViewController:nav];
     self.popover.delegate = self;
     
-    
     //default is nothing selected
     self.selectedIndex = -1;
 }
@@ -93,12 +95,22 @@
 
 - (void) presentFromBarButtonItem:(UIBarButtonItem*)control
 {
+    [self p_preparePopoverSize];
     [self.popover presentPopoverFromBarButtonItem:control permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void) presentFromControl:(UIView*)control
 {
+    [self p_preparePopoverSize];
     [self.popover presentPopoverFromRect:control.frame inView:control.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void) p_preparePopoverSize
+{
+    int count = [self tableView:self.tableController.tableView numberOfRowsInSection:0];
+    CGFloat height = self.tableController.tableView.rowHeight;
+    CGFloat fullHeight = MAX(height * count, height * TABLE_MIN_VISIBLE_ROWS);
+    self.popover.popoverContentSize = CGSizeMake(TABLE_WIDTH, fullHeight);
 }
 
 
@@ -147,7 +159,7 @@
         self.selectedIndex = -1;
     else
         self.selectedIndex = indexPath.row;
-        
+    
     //reload other visible cells
     NSArray *visible = [tableView indexPathsForVisibleRows];
     [self.tableController.tableView reloadRowsAtIndexPaths:visible withRowAnimation:UITableViewRowAnimationAutomatic];
