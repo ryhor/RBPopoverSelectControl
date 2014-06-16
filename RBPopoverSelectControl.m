@@ -125,6 +125,9 @@
     //set text
     cell.textLabel.text = self.items[indexPath.row];
     
+    //color
+    cell.tintColor = self.tintColor;
+    
     //selection
     if (indexPath.row == self.selectedIndex)
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
