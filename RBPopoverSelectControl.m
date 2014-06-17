@@ -107,7 +107,7 @@ static const int TABLE_WIDTH = 320;
 
 - (void) p_preparePopoverSize
 {
-    int count = [self tableView:self.tableController.tableView numberOfRowsInSection:0];
+    NSInteger count = [self tableView:self.tableController.tableView numberOfRowsInSection:0];
     CGFloat height = self.tableController.tableView.rowHeight;
     CGFloat fullHeight = MAX(height * count, height * TABLE_MIN_VISIBLE_ROWS);
     self.popover.popoverContentSize = CGSizeMake(TABLE_WIDTH, fullHeight);
