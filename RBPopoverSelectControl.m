@@ -50,6 +50,10 @@ static const int TABLE_WIDTH = 320;
 
 - (void) initialize
 {
+    
+    //arrows
+    self.preferredArrowDirection = UIPopoverArrowDirectionAny;
+    
     //text field
     self.textField = [[UITextField alloc]initWithFrame:self.bounds];
     self.textField.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -96,13 +100,13 @@ static const int TABLE_WIDTH = 320;
 - (void) presentFromBarButtonItem:(UIBarButtonItem*)control
 {
     [self p_preparePopoverSize];
-    [self.popover presentPopoverFromBarButtonItem:control permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self.popover presentPopoverFromBarButtonItem:control permittedArrowDirections:self.preferredArrowDirection animated:YES];
 }
 
 - (void) presentFromControl:(UIView*)control
 {
     [self p_preparePopoverSize];
-    [self.popover presentPopoverFromRect:control.frame inView:control.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self.popover presentPopoverFromRect:control.frame inView:control.superview permittedArrowDirections:self.preferredArrowDirection animated:YES];
 }
 
 - (void) p_preparePopoverSize

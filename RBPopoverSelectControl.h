@@ -55,6 +55,12 @@
  */
 @property (nonatomic, strong) NSString *placeholder;
 
+
+/**
+ Preferred arrow direction. Default is Any
+ */
+@property (nonatomic) UIPopoverArrowDirection preferredArrowDirection;
+
 /**
  Returns YES if selectedIndex is > 0
  */
