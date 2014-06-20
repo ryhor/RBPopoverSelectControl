@@ -75,6 +75,9 @@ static const int TABLE_WIDTH = 320;
     self.tableController.tableView.delegate = self;
     self.tableController.tableView.dataSource = self;
     
+    //table separators unneeded
+    self.tableController.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
     //popover
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:self.tableController];
     nav.navigationBarHidden = YES;
