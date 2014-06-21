@@ -42,15 +42,18 @@ static const int TABLE_WIDTH = 320;
     return self;
 }
 
-- (void) awakeFromNib
+- (instancetype) initWithCoder:(NSCoder *)aDecoder
 {
-    [super awakeFromNib];
-    [self initialize];
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
 }
 
 - (void) initialize
 {
-    
     //arrows
     self.preferredArrowDirection = UIPopoverArrowDirectionAny;
     
