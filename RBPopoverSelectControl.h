@@ -55,11 +55,16 @@
  */
 @property (nonatomic, strong) NSString *placeholder;
 
-
 /**
  Preferred arrow direction. Default is Any
  */
 @property (nonatomic) UIPopoverArrowDirection preferredArrowDirection;
+
+/**
+ Text field that is created by the control, added as a subview and used
+ for selection display
+ */
+@property (nonatomic, strong, readonly) UITextField *textField;
 
 /**
  Returns YES if selectedIndex is > 0
