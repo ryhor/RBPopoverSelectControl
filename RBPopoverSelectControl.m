@@ -57,6 +57,9 @@ static const int TABLE_WIDTH = 320;
     //arrows
     self.preferredArrowDirection = UIPopoverArrowDirectionAny;
     
+    //style
+    self.textAlignment = NSTextAlignmentLeft;
+    
     //text field
     self.textField = [[UITextField alloc]initWithFrame:self.bounds];
     self.textField.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -146,6 +149,7 @@ static const int TABLE_WIDTH = 320;
     
     //set text
     cell.textLabel.text = self.items[indexPath.row];
+    cell.textLabel.textAlignment = self.textAlignment;
     
     //color
     cell.tintColor = self.tintColor;
@@ -210,6 +214,15 @@ static const int TABLE_WIDTH = 320;
 - (NSInteger)selectedIndex
 {
     return _selectedIndex;
+}
+
+- (void) setTextAlignment:(NSTextAlignment)textAlignment
+{
+    if (_textAlignment == textAlignment)
+        return;
+    
+    _textAlignment = textAlignment;
+    [self.tableController.tableView reloadData];
 }
 
 #pragma mark - Textfield posing

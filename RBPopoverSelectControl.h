@@ -61,6 +61,11 @@
 @property (nonatomic) UIPopoverArrowDirection preferredArrowDirection;
 
 /**
+ Text alignment of the displayed options' text
+ */
+@property (nonatomic) NSTextAlignment textAlignment;
+
+/**
  Text field that is created by the control, added as a subview and used
  for selection display
  */
