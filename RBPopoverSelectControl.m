@@ -7,7 +7,7 @@
 #import "RBPopoverSelectControl.h"
 
 static const int TABLE_MIN_VISIBLE_ROWS = 3;
-static const int TABLE_WIDTH = 320;
+static const int TABLE_PADDING = 24;
 
 @interface RBPopoverSelectControl () <UITextFieldDelegate, UIPopoverControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -123,7 +123,7 @@ static const int TABLE_WIDTH = 320;
     NSInteger count = [self tableView:self.tableController.tableView numberOfRowsInSection:0];
     CGFloat height = self.tableController.tableView.rowHeight;
     CGFloat fullHeight = MAX(height * count, height * TABLE_MIN_VISIBLE_ROWS);
-    self.popover.popoverContentSize = CGSizeMake(TABLE_WIDTH, fullHeight);
+    self.popover.popoverContentSize = CGSizeMake(self.tableController.preferredContentSize.width, fullHeight);
 }
 
 
@@ -156,9 +156,9 @@ static const int TABLE_WIDTH = 320;
     
     //selection
     if (indexPath.row == self.selectedIndex)
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
     else
-        cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
 }
@@ -170,9 +170,9 @@ static const int TABLE_WIDTH = 320;
     
     //deselect if allowed
     if (self.allowDeselection.boolValue && self.selectedIndex == indexPath.row)
-        self.selectedIndex = -1;
+    self.selectedIndex = -1;
     else
-        self.selectedIndex = indexPath.row;
+    self.selectedIndex = indexPath.row;
     
     //reload other visible cells
     NSArray *visible = [tableView indexPathsForVisibleRows];
@@ -203,6 +203,19 @@ static const int TABLE_WIDTH = 320;
     
     //unselect everything
     self.selectedIndex = -1;
+    
+    //find the most 'fat' item and set the sizes
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    CGFloat fatWidth = 0;
+    for (NSString *item in items)
+    {
+        cell.textLabel.text = item;
+        [cell.textLabel sizeToFit];
+        CGFloat width1 = cell.textLabel.frame.size.width;
+        if (width1 > fatWidth) fatWidth = width1;
+    }
+    
+    self.tableController.preferredContentSize = CGSizeMake(TABLE_PADDING * 2 + fatWidth, 0);
 }
 
 - (void) setSelectedIndex:(NSInteger)selectedIndex
@@ -219,7 +232,7 @@ static const int TABLE_WIDTH = 320;
 - (void) setTextAlignment:(NSTextAlignment)textAlignment
 {
     if (_textAlignment == textAlignment)
-        return;
+    return;
     
     _textAlignment = textAlignment;
     [self.tableController.tableView reloadData];
