@@ -7,7 +7,7 @@
 #import "RBPopoverSelectControl.h"
 
 static const int TABLE_MIN_VISIBLE_ROWS = 3;
-static const int TABLE_PADDING = 24;
+static const int TABLE_PADDING = 32;
 
 @interface RBPopoverSelectControl () <UITextFieldDelegate, UIPopoverControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
