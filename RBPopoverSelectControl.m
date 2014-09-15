@@ -6,14 +6,31 @@
 
 #import "RBPopoverSelectControl.h"
 
+static const int TABLE_BASIC_ROW_HEIGHT = 44;
 static const int TABLE_MIN_VISIBLE_ROWS = 3;
 static const int TABLE_PADDING = 32;
+
+@interface RBMarginlessInternalTableController : UITableViewController
+@end
+
+@implementation RBMarginlessInternalTableController
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    //ios 8 margins
+    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)])
+        self.tableView.layoutMargins = UIEdgeInsetsZero;
+}
+
+@end
+
 
 @interface RBPopoverSelectControl () <UITextFieldDelegate, UIPopoverControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 //ui
 @property (nonatomic, strong) UITextField *textField;
-@property (nonatomic, strong) UITableViewController *tableController;
+@property (nonatomic, strong) RBMarginlessInternalTableController *tableController;
 
 //popover
 @property (nonatomic, strong) UIPopoverController *popover;
@@ -75,7 +92,7 @@ static const int TABLE_PADDING = 32;
     self.textField.rightViewMode = UITextFieldViewModeAlways;
     
     //table
-    self.tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+    self.tableController = [[RBMarginlessInternalTableController alloc]initWithStyle:UITableViewStylePlain];
     self.tableController.tableView.allowsMultipleSelection = NO;
     if ([self.tableController.tableView respondsToSelector:@selector(setSeparatorInset:)]) self.tableController.tableView.separatorInset = UIEdgeInsetsZero;
     self.tableController.tableView.delegate = self;
@@ -121,11 +138,12 @@ static const int TABLE_PADDING = 32;
 - (void) p_preparePopoverSize
 {
     NSInteger count = [self tableView:self.tableController.tableView numberOfRowsInSection:0];
-    CGFloat height = self.tableController.tableView.rowHeight;
+    CGFloat height = TABLE_BASIC_ROW_HEIGHT;
     CGFloat fullHeight = MAX(height * count, height * TABLE_MIN_VISIBLE_ROWS);
-    self.popover.popoverContentSize = CGSizeMake(self.tableController.preferredContentSize.width, fullHeight);
+    CGSize preferredSize = CGSizeMake(self.tableController.preferredContentSize.width, fullHeight);
+    self.popover.contentViewController.preferredContentSize = preferredSize;
+    self.popover.popoverContentSize = preferredSize;
 }
-
 
 #pragma mark - Table
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -156,9 +174,17 @@ static const int TABLE_PADDING = 32;
     
     //selection
     if (indexPath.row == self.selectedIndex)
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
     else
-    cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    //ios 8 margins
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)])
+        cell.layoutMargins = UIEdgeInsetsZero;
+    
+    if ([tableView respondsToSelector:@selector(setLayoutMargins:)])
+        tableView.layoutMargins = UIEdgeInsetsZero;
+    
     
     return cell;
 }
@@ -170,9 +196,9 @@ static const int TABLE_PADDING = 32;
     
     //deselect if allowed
     if (self.allowDeselection.boolValue && self.selectedIndex == indexPath.row)
-    self.selectedIndex = -1;
+        self.selectedIndex = -1;
     else
-    self.selectedIndex = indexPath.row;
+        self.selectedIndex = indexPath.row;
     
     //reload other visible cells
     NSArray *visible = [tableView indexPathsForVisibleRows];
@@ -232,7 +258,7 @@ static const int TABLE_PADDING = 32;
 - (void) setTextAlignment:(NSTextAlignment)textAlignment
 {
     if (_textAlignment == textAlignment)
-    return;
+        return;
     
     _textAlignment = textAlignment;
     [self.tableController.tableView reloadData];
