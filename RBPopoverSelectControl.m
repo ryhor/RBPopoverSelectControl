@@ -8,7 +8,7 @@
 
 static const int TABLE_BASIC_ROW_HEIGHT = 44;
 static const int TABLE_MIN_VISIBLE_ROWS = 3;
-static const int TABLE_PADDING = 32;
+static const int TABLE_PADDING = 42;
 
 @interface RBMarginlessInternalTableController : UITableViewController
 @end
@@ -21,6 +21,42 @@ static const int TABLE_PADDING = 32;
     //ios 8 margins
     if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)])
         self.tableView.layoutMargins = UIEdgeInsetsZero;
+}
+
+@end
+
+@interface CenteredLabelCheckmarkCell : UITableViewCell
+@property (nonatomic, strong) UILabel *centeredLabel;
+@end
+
+@implementation CenteredLabelCheckmarkCell
+- (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self)
+    {
+        self.centeredLabel = [UILabel new];
+        [self addSubview:self.centeredLabel];
+    }
+    return self;
+}
+
+- (void) p_createCenteredLabel
+{
+    if (self.centeredLabel == nil)
+    {
+        self.centeredLabel = [UILabel new];
+        [self.contentView addSubview:self.centeredLabel];
+    }
+}
+
+- (void) layoutSubviews
+{
+    [super layoutSubviews];
+    
+    [self p_createCenteredLabel];
+    self.centeredLabel.frame = self.bounds;
+    self.centeredLabel.font = self.textLabel.font;
 }
 
 @end
@@ -98,6 +134,9 @@ static const int TABLE_PADDING = 32;
     self.tableController.tableView.delegate = self;
     self.tableController.tableView.dataSource = self;
     
+    [self.tableController.tableView registerClass:[CenteredLabelCheckmarkCell class]
+                           forCellReuseIdentifier:NSStringFromClass([CenteredLabelCheckmarkCell class])];
+    
     //table separators unneeded
     self.tableController.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
@@ -158,16 +197,11 @@ static const int TABLE_PADDING = 32;
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellId = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell)
-    {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    }
+    CenteredLabelCheckmarkCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CenteredLabelCheckmarkCell class])];
     
     //set text
-    cell.textLabel.text = self.items[indexPath.row];
-    cell.textLabel.textAlignment = self.textAlignment;
+    cell.centeredLabel.text = self.items[indexPath.row];
+    cell.centeredLabel.textAlignment = self.textAlignment;
     
     //color
     cell.tintColor = self.tintColor;
@@ -184,7 +218,6 @@ static const int TABLE_PADDING = 32;
     
     if ([tableView respondsToSelector:@selector(setLayoutMargins:)])
         tableView.layoutMargins = UIEdgeInsetsZero;
-    
     
     return cell;
 }
