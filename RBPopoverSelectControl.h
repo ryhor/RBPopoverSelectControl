@@ -14,9 +14,15 @@
 
 /**
  Called when selection changes
+ @param control
  */
 - (void) popoverSelectControlSelectionChanged:(RBPopoverSelectControl*)control;
 
+
+/** Called when popover is dismissed
+ @param control
+ */
+- (void) popoverSelectControlDismissed:(RBPopoverSelectControl *)control;
 @end
 
 @interface RBPopoverSelectControl : UIControl

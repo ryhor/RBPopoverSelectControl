@@ -159,7 +159,9 @@ static const int TABLE_PADDING = 42;
 #pragma mark - Popover
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
-    [self.textField resignFirstResponder];
+    [self endEditing:YES];
+    if ([self.delegate respondsToSelector:@selector(popoverSelectControlDismissed:)])
+        [self.delegate popoverSelectControlDismissed:self];
 }
 
 - (void) presentFromBarButtonItem:(UIBarButtonItem*)control
